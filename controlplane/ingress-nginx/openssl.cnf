@@ -1,0 +1,52 @@
+[ policy_match ]
+countryName                     = match
+stateOrProvinceName             = match
+organizationName                = match
+organizationalUnitName          = match
+commonName                      = supplied
+emailAddress                    = match
+
+[ req ]
+default_bits            = 2048
+default_keyfile         = privkey.pem
+distinguished_name      = req_distinguished_name
+#attributes             = req_attributes
+#x509_extensions        = v3_ca # The extentions to add to the self signed cert
+encrypt_key             = yes
+default_md              = sha256
+req_extensions          = v3_req
+
+[ v3_req ]
+subjectAltName          = @alt_names
+extendedKeyUsage        = serverAuth,clientAuth
+
+[ req_distinguished_name ]
+countryName             = Country Name (2 letter code)
+countryName_default     = DE
+countryName_min         = 2
+countryName_max         = 2
+
+stateOrProvinceName             = State or Province Name (full name)
+stateOrProvinceName_default     = Bayern
+
+localityName            = Locality Name (eg, city)
+localityName_default    = Bamberg
+
+0.organizationName              = Organization Name (eg, company)
+0.organizationName_default      = Deutsche Telekom IT GmbH
+
+0.organizationalUnitName        = Organizational Unit Name 1
+0.organizationalUnitName_default        = Telekom IT
+
+commonName      = Common Name (eg, full machine name or IP address)
+commonName_default      = edezsm.de.t-internal.com
+commonName_max  = 64
+
+emailAddress            = Email Address
+emailAddress_default    = ars-betrieb@t-systems.com
+emailAddress_max        = 64
+
+[alt_names]
+DNS.1 = edezsm.de.t-internal.com
+DNS.2 = *.wmstk-np.telekom.de
+IP.2 = 10.103.68.135

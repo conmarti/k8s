@@ -1,0 +1,43 @@
+resources:
+  - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.4/deploy/static/provider/baremetal/deploy.yaml
+patches:
+  - target:
+      version: v1
+      kind: Deployment
+      name: ingress-nginx-controller
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --default-ssl-certificate=$(POD_NAMESPACE)/default
+  - target:
+      version: v1
+      kind: ConfigMap
+      name: ingress-nginx-controller
+    patch: |-
+      - op: add
+        path: /data/server-name-hash-bucket-size
+        value: "1024"
+      - op: add
+        path: /data/ssl-redirect
+        value: "False"
+      - op: add
+        path: /data/enable-underscores-in-headers
+        value: "True"
+      - op: add
+        path: /data/proxy-body-size
+        value: "250m"
+      - op: add
+        path: /data/use-forwarded-headers
+        value: "True"
+      - op: add
+        path: /data/proxy-connect-timeout
+        value: "300"
+      - op: add
+        path: /data/proxy-read-timeout
+        value: "600"
+      - op: add
+        path: /data/proxy-send-timeout
+        value: "600"
+      - op: replace
+        path: /data/allow-snippet-annotations
+        value: "true"
